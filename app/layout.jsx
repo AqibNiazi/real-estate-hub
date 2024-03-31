@@ -1,5 +1,5 @@
 import React from 'react'
-import '@/assets/styles/globals.css'
+import '../assets/styles/globals.css'
 export const metadata =  { 
   title:"Property Pulse | Find Perfect Rental",
   description:"Find your dream Rental Property",
