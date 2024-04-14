@@ -1,0 +1,27 @@
+import { Schema, model } from "mongoose";
+const UserSchema = new Schema(
+  {
+    email: {
+      type: String,
+      unique: [true, "Email already exists"],
+      required: [true, "Email is required"],
+    },
+    username: {
+      type: String,
+      required: [true, "username is required"],
+    },
+    image: {
+      type: String,
+    },
+    bookmarks: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Property", //to refer model from which we link this collection
+      },
+    ],
+  },
+  { timestamps: true }
+);
+
+const User = model("User", UserSchema);
+export default User;
