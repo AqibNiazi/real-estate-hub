@@ -36,7 +36,7 @@ const PropertyPage = () => {
     <>
       {!loading && property && (
         <>
-          <PropertyHeaderImage image={property?.images[0]} />
+          <PropertyHeaderImage image={property?.images?.[0]} />
           {/*!-- Go Back -->*/}
           <section>
             <div className="container m-auto py-6 px-6">
