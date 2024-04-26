@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 const PropertyAddForm = () => {
   const [mounted, setMounted] = useState(false);
   const [fields, setFields] = useState({
-    type: "Apartment",
-    name: "Test property",
+    type: "",
+    name: "",
     description: "",
     location: {
       street: "",
@@ -13,18 +13,18 @@ const PropertyAddForm = () => {
       state: "",
       zipcode: "",
     },
-    beds: "2",
-    baths: "3",
-    square_feet: "1800",
+    beds: "",
+    baths: "",
+    square_feet: "",
     amenities: [],
     rates: {
       weekly: "",
-      monthly: "2000",
+      monthly: "",
       nightly: "",
     },
     seller_info: {
       name: "",
-      email: "aqib@haved.com",
+      email: "",
       phone: "",
     },
     images: [],
@@ -50,8 +50,38 @@ const PropertyAddForm = () => {
       }));
     }
   };
-  const handleAmenitiesChange = () => {};
-  const handleImageChange = () => {};
+  const handleAmenitiesChange = (e) => {
+    const { value, checked } = e.target;
+    //clone current array
+    const updatedAmenities = [...fields.amenities];
+    if (checked) {
+      //if checked true add value to the array
+      updatedAmenities.push(value);
+    } else {
+      //if unchecked remove value to the array
+
+      const index = updatedAmenities.indexOf(value);
+      if (index !== -1) {
+        updatedAmenities.splice(index, 1);
+      }
+    }
+    //update state with updated array
+    setFields((prevFields) => ({
+      ...prevFields,
+      amenities: updatedAmenities,
+    }));
+  };
+  const handleImageChange = (e) => {
+    const { files } = e.target;
+    const updatedImages = [...fields.images];
+    for (const file of files) {
+      updatedImages.push(file);
+    }
+    setFields((prevFields) => ({
+      ...prevFields,
+      images: updatedImages,
+    }));
+  };
   return (
     mounted && (
       <form>
@@ -107,7 +137,6 @@ const PropertyAddForm = () => {
             className="border rounded w-full py-2 px-3"
             rows={4}
             placeholder="Add an optional description of your property"
-            defaultValue={""}
             onChange={handleChange}
             value={fields.description}
           />
