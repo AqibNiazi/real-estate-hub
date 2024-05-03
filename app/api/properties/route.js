@@ -6,11 +6,6 @@ import { getSessionUser } from "@/utils/getSessionUser";
 export const GET = async () => {
   try {
     await connectDB();
-    const sessionUser = await getSessionUser();
-    if (!sessionUser || !sessionUser.id) {
-      return new Response("user id is required", { status: 401 });
-    }
-    const userId = sessionUser;
     const properties = await Property.find({});
     return new Response(JSON.stringify(properties), {
       status: 200,
@@ -23,6 +18,12 @@ export const GET = async () => {
 //POST /api/properties
 export const POST = async (request) => {
   try {
+    await connectDB();
+    const sessionUser = await getSessionUser();
+    if (!sessionUser || !sessionUser.userId) {
+      return new Response("user id is required", { status: 401 });
+    }
+    const { userId } = sessionUser;
     const formData = await request.formData();
     //Access All values from Amenities and Images
     const amenities = formData.getAll("amenities");
