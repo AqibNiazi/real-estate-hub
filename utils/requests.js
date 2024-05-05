@@ -7,7 +7,10 @@ async function fetchProperties() {
     if (!apiDomain) {
       return [];
     }
-    const res = await axios.get(`${apiDomain}/properties`);
+    const res = await axios.get(`${apiDomain}/properties`, {
+      cache: "no-store",
+    });
+    
     return res?.data;
   } catch (error) {
     console.log(error);

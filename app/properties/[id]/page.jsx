@@ -6,11 +6,11 @@ import PropertyHeaderImage from "@/components/PropertyHeaderImage";
 import Link from "next/link";
 import PropertyDetails from "@/components/PropertyDetails";
 import { FaArrowLeft } from "react-icons/fa";
+import PropertyImages from "@/components/PropertyImages";
 const PropertyPage = () => {
   const { id } = useParams();
   const [property, setproperty] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log("Property data", property);
   useEffect(() => {
     const fetchPropertyData = async () => {
       try {
@@ -139,6 +139,7 @@ const PropertyPage = () => {
               </div>
             </div>
           </section>
+          <PropertyImages images={property.images} />
         </>
       )}
     </>
