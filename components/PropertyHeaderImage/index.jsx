@@ -4,22 +4,21 @@ const PropertyHeaderImage = ({image}) => {
   
   return (
     <section>
-    <div className="container-xl m-auto">
-      <div className="grid grid-cols-1">
-        <Image
-          src={`/properties/${image}`}
-          alt="property header Image"
-          className="object-cover h-80 w-full"
-          width={0}
-          height={0}
-          sizes='100vw'
-          priority={true}
-        />
+      <div className="container-xl m-auto">
+        <div className="grid grid-cols-1">
+          <Image
+            src={image}
+            alt="property header Image"
+            className="object-cover h-80 w-full"
+            width={0}
+            height={0}
+            sizes="100vw"
+            priority={true}
+          />
+        </div>
       </div>
-    </div>
-  </section>
-  
-  )
+    </section>
+  );
 }
 
 export default PropertyHeaderImage
