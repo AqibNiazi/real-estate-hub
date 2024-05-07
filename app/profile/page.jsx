@@ -56,11 +56,11 @@ const ProfilePage = () => {
         setProperties(updatedProperties);
         toast.success("Property deleted successfully");
       } else {
-        alert("Failed to delete property");
+        toast.error("Failed to delete property");
       }
     } catch (error) {
       console.log(error);
-      alert("Failed to delete property");
+      toast.error("Failed to delete property");
     }
   };
 
