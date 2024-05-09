@@ -1,8 +1,14 @@
 "use client";
+import { fetchProperty } from "@/utils/requests";
 import React, { useState, useEffect } from "react";
-
+import { useParams, useRouter } from "next/navigation";
+import axios from "axios";
+import { toast } from "react-toastify";
 const PropertyEditForm = () => {
+  const { id } = useParams();
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [fields, setFields] = useState({
     type: "",
     name: "",
@@ -27,10 +33,30 @@ const PropertyEditForm = () => {
       email: "",
       phone: "",
     },
-    images: [],
   });
   useEffect(() => {
     setMounted(true);
+    const fetchPropertyData = async () => {
+      try {
+        const propertyData = await fetchProperty(id);
+        //Check PropertyData for null if it is put empty string
+        if (propertyData && propertyData.rates) {
+          const defaultRates = { ...propertyData.rates };
+          for (const rate in defaultRates) {
+            if (defaultRates[rate] === null) {
+              defaultRates[rate] = "";
+            }
+          }
+          propertyData.rates = defaultRates;
+        }
+        setFields(propertyData);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPropertyData();
   }, []);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,24 +97,33 @@ const PropertyEditForm = () => {
       amenities: updatedAmenities,
     }));
   };
-  const handleImageChange = (e) => {
-    const { files } = e.target;
-    const updatedImages = [...fields.images];
-    for (const file of files) {
-      updatedImages.push(file);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const formData = new FormData(e.target);
+
+      const response = await axios.put(`/api/properties/${id}`, formData);
+
+      if (response.status === 200) {
+        console.log("response", response);
+        toast.success("Property Updated Successfully");
+        router.push(`/properties/${id}`);
+      } else if (response.status === 401 || response.status === 403) {
+        toast.error("Permission denied");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
     }
-    setFields((prevFields) => ({
-      ...prevFields,
-      images: updatedImages,
-    }));
   };
   return (
-    mounted && (
-      <form
-        action="/api/properties"
-        method="POST"
-        encType="multipart/form-data"
-      >
+    mounted &&
+    !loading && (
+      <form onSubmit={handleSubmit}>
         <h2 className="text-3xl text-center font-semibold mb-6">
           Edit Property
         </h2>
@@ -528,23 +563,7 @@ const PropertyEditForm = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="mb-4">
-          <label
-            htmlFor="images"
-            className="block text-gray-700 font-bold mb-2"
-          >
-            Images (Select up to 4 images)
-          </label>
-          <input
-            type="file"
-            id="images"
-            name="images"
-            className="border rounded w-full py-2 px-3"
-            accept="image/*"
-            multiple
-            onChange={handleImageChange}
-          />
-        </div>
+
         <div>
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
