@@ -11,6 +11,8 @@ const PropertyMap = ({ property }) => {
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [geoCodeError, setGeoCodeError] = useState(false);
+
   const [viewport, setViewport] = useState({
     latitude: 0,
     longitude: 0,
@@ -25,18 +27,35 @@ const PropertyMap = ({ property }) => {
   });
   useEffect(() => {
     const fetchCoords = async () => {
-      const response = await fromAddress(
-        `${property?.location?.street} ${property?.location?.city} ${property?.location?.state} ${property?.location?.zipcode}`
-      );
-      const { lat, lng } = response?.results[0]?.geometry?.location;
-      setLng(lng);
-      setLat(lat);
-      setViewport({ ...viewport, latitude: lat, longitude: lng });
-      setLoading(false);
+      try {
+        const response = await fromAddress(
+          `${property?.location?.street} ${property?.location?.city} ${property?.location?.state} ${property?.location?.zipcode}`
+        );
+        if (response?.results?.length === 0) {
+          setGeoCodeError(true);
+          setLoading(false);
+          return;
+        }
+        const { lat, lng } = response?.results[0]?.geometry?.location;
+        setLng(lng);
+        setLat(lat);
+        setViewport({ ...viewport, latitude: lat, longitude: lng });
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setGeoCodeError(true);
+        setLoading(false);
+      }
     };
     fetchCoords();
   }, []);
   if (loading) return <Spinner loading={loading} />;
+
+  //Handle the case where no location data found
+  if (geoCodeError) {
+    return <div className="text-xl">No Location data found</div>;
+  }
+
   return (
     !loading && (
       <Map
