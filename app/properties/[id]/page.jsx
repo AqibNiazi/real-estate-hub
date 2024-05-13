@@ -10,37 +10,45 @@ import PropertyImages from "@/components/PropertyImages";
 import BookmarkButton from "@/components/BookmarkButton";
 import ShareButton from "@/components/ShareButton";
 import PropertyContactForm from "@/components/PropertyContactForm";
+import Spinner from "@/components/Spinner";
 const PropertyPage = () => {
   const { id } = useParams();
-  const [property, setproperty] = useState(null);
+
+  const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchPropertyData = async () => {
+      if (!id) return;
       try {
-        if (!id) return;
         const property = await fetchProperty(id);
-        setproperty(property);
+        setProperty(property);
       } catch (error) {
-        console.error("Error fetching Property", error);
+        console.error("Error fetching property:", error);
       } finally {
         setLoading(false);
       }
     };
+
     if (property === null) {
       fetchPropertyData();
     }
   }, [id, property]);
 
-  if (!property && !loading) {
-    return <h2 className="font-bold text-2xl mt-10">Property Not Found</h2>;
+  if (property.length === 0 && !loading) {
+    return (
+      <h1 className="text-center text-2xl font-bold mt-10">
+        Property Not Found
+      </h1>
+    );
   }
 
   return (
     <>
+      {loading && <Spinner loading={loading} />}
       {!loading && property && (
         <>
           <PropertyHeaderImage image={property?.images?.[0]} />
-          {/*!-- Go Back -->*/}
           <section>
             <div className="container m-auto py-6 px-6">
               <Link
@@ -51,16 +59,14 @@ const PropertyPage = () => {
               </Link>
             </div>
           </section>
-          {/* Property Info */}
+
           <section className="bg-blue-50">
             <div className="container m-auto py-10 px-6">
               <div className="grid grid-cols-1 md:grid-cols-70/30 w-full gap-6">
                 <PropertyDetails property={property} />
-                {/* Sidebar */}
                 <aside className="space-y-4">
                   <BookmarkButton property={property} />
                   <ShareButton property={property} />
-                  {/* Contact Form */}
                   <PropertyContactForm property={property} />
                 </aside>
               </div>

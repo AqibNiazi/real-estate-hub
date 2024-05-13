@@ -20,7 +20,7 @@ const ShareButton = ({ property }) => {
         <FacebookShareButton
           url={shareUrl}
           quote={property.name}
-          hashtag={`#${property.type}ForRent`}
+          hashtag={`#${property?.type?.replace(/\s/g, "")}ForRent`}
         >
           <FacebookIcon size={32} round={true} />
         </FacebookShareButton>
@@ -28,7 +28,7 @@ const ShareButton = ({ property }) => {
         <TwitterShareButton
           url={shareUrl}
           title={property.name}
-          hashtags={[`${property.type.replace(/\s/g, "")}ForRent`]}
+          hashtags={[`${property?.type?.replace(/\s/g, "")}ForRent`]}
         >
           <TwitterIcon size={32} round={true} />
         </TwitterShareButton>
@@ -36,7 +36,7 @@ const ShareButton = ({ property }) => {
         <WhatsappShareButton
           url={shareUrl}
           title={property.name}
-          separator={` ${property.type.replace(/\s/g, "")}ForRent `}
+          separator={` ${property?.type?.replace(/\s/g, "")}ForRent `}
         >
           <WhatsappIcon size={32} round={true} />
         </WhatsappShareButton>
