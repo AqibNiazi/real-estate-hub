@@ -3,7 +3,9 @@ import axios from "axios";
 import React, { useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useSession } from "next-auth/react";
 const PropertyContactForm = ({ property }) => {
+  const { data: session } = useSession();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -39,7 +41,9 @@ const PropertyContactForm = ({ property }) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h3 className="text-xl font-bold mb-6">Contact Property Manager</h3>
-      {isSubmitted ? (
+      {!session ? (
+        <p>You must be loggedin to send a message</p>
+      ) : isSubmitted ? (
         <p className="text-green-500  mb-4">
           Your message has been sent successfully
         </p>
