@@ -1,29 +1,47 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropertyCard from "@/components/PropertyCard";
 import axios from "axios";
+import Spinner from "../Spinner";
+import Pagination from "../Pagination";
 const Properties = () => {
   const [properties, setProperties] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(6);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        setIsLoading(true);
-        const response = await axios.get("/api/properties");
-        if (response.status >= 200 && response.status < 300) {
-          setProperties(response?.data);
+        setLoading(true);
+        const response = await axios.get(
+          `/api/properties?page=${page}&pageSize=${pageSize}`
+        );
+
+        if (response.status === 200) {
+          const data = response?.data;
+          setProperties(data?.properties);
+          setTotalItems(data?.total);
+        } else {
+          setProperties([]);
         }
       } catch (error) {
         console.log(error);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
     fetchProperties();
-  }, []);
+  }, [page, pageSize]);
 
-  return (
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  return loading ? (
+    <Spinner loading={loading} />
+  ) : (
     <section className="px-4 py-6">
       <div className="container-xl lg:container m-auto px-4 py-6">
         {properties?.length === 0 ? (
@@ -35,6 +53,12 @@ const Properties = () => {
             ))}
           </div>
         )}
+        <Pagination
+          page={page}
+          pageSize={pageSize}
+          totalItems={totalItems}
+          onPageChange={handlePageChange}
+        />
       </div>
     </section>
   );
