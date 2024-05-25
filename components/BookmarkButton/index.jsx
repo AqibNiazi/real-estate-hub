@@ -4,6 +4,7 @@ import { FaBookmark } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import { apiDomain } from "@/utils/requests";
 
 const BookmarkButton = ({ property }) => {
   const { data: session } = useSession();
@@ -16,7 +17,7 @@ const BookmarkButton = ({ property }) => {
     const checkBookmarkStatus = async () => {
       try {
         setLoading(true);
-        const res = await axios.post("/api/bookmark/check", {
+        const res = await axios.post(`${apiDomain}/bookmark/check`, {
           propertyId: property._id,
         });
         if (res?.status === 200) {
@@ -37,7 +38,7 @@ const BookmarkButton = ({ property }) => {
       return;
     }
     try {
-      const res = await axios.post("/api/bookmark", {
+      const res = await axios.post(`${apiDomain}/bookmark`, {
         propertyId: property._id,
       });
       if (res?.status === 200) {
