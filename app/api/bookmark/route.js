@@ -9,7 +9,9 @@ try {
   await connectDB()
 const sessionUser=await getSessionUser()
 if (!sessionUser || !sessionUser?.userId) {
-  return new Response("User Id is required", { status: 401 });
+  return new Response(JSON.stringify({ message: "User Id is required" }), {
+    status: 401,
+  });
 }
 const { userId } = sessionUser;
     //find user from the data

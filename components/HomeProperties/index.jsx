@@ -15,15 +15,17 @@ const HomeProperties = async() => {
           <h2 className="text-3xl font-bold text-blue-500 mb-6 text-center">
             Recent Properties
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {data?.properties?.length === 0 ? (
-              <p>No Recent Properties</p>
-            ) : (
-              recentProperties?.map((property) => (
+          {data?.properties?.length === 0 ? (
+            <p className="text-center text-xl font-semibold">
+              No Recent Properties
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {data?.properties?.map((property) => (
                 <PropertyCard key={property?._id} property={property} />
-              ))
-            )}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
       <section className="m-auto max-w-lg my-10 px-6">
