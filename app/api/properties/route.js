@@ -34,7 +34,9 @@ export const POST = async (request) => {
     const sessionUser = await getSessionUser();
 
     if (!sessionUser || !sessionUser.userId) {
-      return new Response("User ID is required", { status: 401 });
+      return new Response(JSON.stringify({ message: "User ID is required" }), {
+        status: 401,
+      });
     }
 
     const { userId } = sessionUser;
@@ -109,7 +111,7 @@ export const POST = async (request) => {
       `${process.env.NEXTAUTH_URL}/properties/${newProperty._id}`
     );
   } catch (error) {
-    return new Response("Failed to add property", { status: 500 });
+    return new Response(JSON.stringify({message: "Failed to add property"}), { status: 500 });
   }
 };
 
