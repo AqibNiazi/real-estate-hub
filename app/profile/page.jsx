@@ -54,7 +54,7 @@ const ProfilePage = () => {
           (property) => property._id !== PropertyId
         );
         setProperties(updatedProperties);
-        toast.success("Property deleted successfully");
+        toast.success(response?.data?.message);
       } else {
         toast.error("Failed to delete property");
       }

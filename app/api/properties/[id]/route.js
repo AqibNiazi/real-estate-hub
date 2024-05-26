@@ -42,9 +42,12 @@ export const DELETE = async (request, { params }) => {
 
     await property.deleteOne();
 
-    return new Response('Property Deleted', {
-      status: 200,
-    });
+    return new Response(
+      JSON.stringify({ message: "Property Deleted Successfully" }),
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
     console.log(error);
     return new Response('Something Went Wrong', { status: 500 });

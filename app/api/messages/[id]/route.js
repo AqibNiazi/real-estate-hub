@@ -74,9 +74,12 @@ export const DELETE = async (request, { params }) => {
 
     // update message status to read/unread depending on current status
     await message.deleteOne();
-    return new Response(JSON.stringify("Message deleted successfully"), {
-      status: 200,
-    });
+    return new Response(
+      JSON.stringify({ message: "Message deleted successfully" }),
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
     console.log(error);
     return new Response("something went wrong", { status: 500 });
