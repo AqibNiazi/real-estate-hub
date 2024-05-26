@@ -62,13 +62,13 @@ const Navbar = () => {
               <Image
                 className="h-10 w-auto"
                 src={logo}
-                alt="PropertyPulse"
+                alt="RealEstateHub"
                 width={0}
                 height={0}
                 priority={true}
               />
               <span className="hidden md:block text-white text-2xl font-bold ml-2">
-                PropertyPulse
+                RealEstateHub
               </span>
             </Link>
             {/* Desktop Menu Hidden below md screens */}

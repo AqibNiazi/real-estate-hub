@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "photoswipe/dist/photoswipe.css";
 import { GlobalProvider } from "@/context/GlobalContext";
 export const metadata = {
-  title: "Property Pulse | Find Perfect Rental",
+  title: "Real Estate Hub | Find Perfect Rental",
   description: "Find your dream Rental Property",
   keywords: "Rentals,Find Rentals,Find Property",
 };
