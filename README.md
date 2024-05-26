@@ -84,11 +84,17 @@ Real Estate Hub is a full-stack real estate platform built with Next.js and Tail
 3. **Setup environment variables:**
    Create a `.env.local` file in the root directory and add the following variables:
    ```env
-   NEXT_PUBLIC_GOOGLE_CLIENT_ID=your-google-client-id
-   NEXT_PUBLIC_GOOGLE_CLIENT_SECRET=your-google-client-secret
-   MONGODB_URI=your-mongodb-connection-string
-   CLOUDINARY_URL=your-cloudinary-url
-   NEXT_PUBLIC_MAPBOX_API_KEY=your-mapbox-api-key
+NEXT_PUBLIC_DOMAIN=http://localhost:3000
+NEXT_PUBLIC_API_DOMAIN=http://localhost:3000/api
+MONGODB_URL=paste-your-mongodb-url
+GOOGLE_CLIENT_ID=put google client Id here
+GOOGLE_CLIENT_SECRET=put Google client secret here
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_URL_INTERNAL=http://localhost:3000
+NEXTAUTH_SECRET= generate secret key using openssl and paste here
+CLOUDINARY_CLOUD_NAME=your cloudinary cloud name here
+CLOUDINARY_API_KEY=api key here
+CLOUDINARY_API_SECRET=api secret here
    ```
 
 4. **Run the development server:**
